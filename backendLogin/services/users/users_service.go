@@ -2,6 +2,7 @@ package users
 
 import (
 	"backend/domain/users"
+	"backend/dtos"
 	"errors"
 	"time"
 
@@ -31,55 +32,48 @@ func GenerateJWT(username, userType string) (string, error) { //Genera un token 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims) //Crea un token JWT firmado con el algoritmo HS256.
 	return token.SignedString(jwtKey)                          //Firma el token con la clave secreta y lo convierte en una cadena.
 }
+func Login(db *gorm.DB, request dtos.LoginRequestDTO) (dtos.LoginResponseDTO, error) { // Función para el inicio de sesión de un usuario, verificar la contraseña y generar un token JWT si las credenciales son correctas.
 
-func Login(request users.LoginRequest) users.LoginResponse { //Función para el inicio de sesión de un usuario, verificar la contraseña y generar un token JWT si las credenciales son correctas.
+	// Validar contra la base de datos
 
-	//COMPLETAR, validar contra la base de datos
+	var user users.User
 
-	/*func Login(db *gorm.DB, request users.LoginRequest) (users.LoginResponse, error) {
-	    var user users.User
-
-	    // Buscar el usuario en la base de datos
-	    if err := db.Where("username = ?", request.Username).First(&user).Error; err != nil {
-	        if errors.Is(err, gorm.ErrRecordNotFound) {
-	            return users.LoginResponse{}, errors.New("usuario no encontrado")
-	        }
-	        return users.LoginResponse{}, err
-	    }
-
-	    // Verificar la contraseña
-	    if !CheckPasswordHash(request.Password, user.Password) {
-	        return users.LoginResponse{}, errors.New("contraseña incorrecta")
-	    }
-
-	    // Generar el token JWT
-	    token, err := GenerateJWT(user.Username, user.UserType)
-	    if err != nil {
-	        return users.LoginResponse{}, err
-	    }
-
-	    return users.LoginResponse{
-	        Token: token,
-	    }, nil
-	} */
-
-	return users.LoginResponse{
-		Token: "abcdef123456",
+	// Buscar el usuario en la base de datos
+	if err := db.Where("username = ?", request.Username).First(&user).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return dtos.LoginResponseDTO{}, errors.New("usuario no encontrado")
+		}
+		return dtos.LoginResponseDTO{}, err
 	}
+
+	// Verificar la contraseña
+	if !CheckPasswordHash(request.Password, user.Password) {
+		return dtos.LoginResponseDTO{}, errors.New("contraseña incorrecta")
+	}
+
+	// Generar el token JWT
+	token, err := GenerateJWT(user.Username, user.UserType)
+	if err != nil {
+		return dtos.LoginResponseDTO{}, err
+	}
+
+	return dtos.LoginResponseDTO{
+		Token: token,
+	}, nil
 }
 
 // Register crea un nuevo usuario en la base de datos.
-func Register(db *gorm.DB, request users.RegisterRequest) (users.RegisterResponse, error) {
+func Register(db *gorm.DB, request dtos.RegisterRequestDTO) (dtos.RegisterResponseDTO, error) {
 	// Verificar si el usuario ya existe
 	var existingUser users.User
 	if err := db.Where("username = ? OR email = ?", request.Username, request.Email).First(&existingUser).Error; err == nil {
-		return users.RegisterResponse{}, errors.New("username or email already exists")
+		return dtos.RegisterResponseDTO{}, errors.New("username or email already exists")
 	}
 
 	// Hashear la contraseña
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return users.RegisterResponse{}, err
+		return dtos.RegisterResponseDTO{}, err
 	}
 
 	// Crear el nuevo usuario
@@ -92,11 +86,11 @@ func Register(db *gorm.DB, request users.RegisterRequest) (users.RegisterRespons
 
 	// Guardar el usuario en la base de datos
 	if err := db.Create(&user).Error; err != nil {
-		return users.RegisterResponse{}, err
+		return dtos.RegisterResponseDTO{}, err
 	}
 
 	// Responder con los datos del usuario
-	return users.RegisterResponse{
+	return dtos.RegisterResponseDTO{
 		ID:       user.ID,
 		Username: user.Username,
 		Email:    user.Email,

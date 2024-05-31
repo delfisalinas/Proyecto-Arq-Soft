@@ -1,19 +1,25 @@
 package users
 
 import (
-	usersService "backend/services/users" //le estoy asignando un alias a la carpeta users
-
-	usersDomain "backend/domain/users" //le estoy asignando un alias a la carpeta users
+	"backend/dtos"
+	usersService "backend/services/users" // asigno un alias a la carpeta users del servicio
 
 	"net/http"
 
-	"gorm.io/gorm"
-
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func Login(context *gin.Context) {
-	var loginRequest usersDomain.LoginRequest
+type Controller struct {
+	db *gorm.DB
+}
+
+func NewController(db *gorm.DB) *Controller {
+	return &Controller{db}
+}
+
+func (ctrl *Controller) Login(context *gin.Context) {
+	var loginRequest dtos.LoginRequestDTO
 
 	// Recibe el cuerpo JSON de la solicitud y maneja errores
 	if err := context.ShouldBindJSON(&loginRequest); err != nil {
@@ -22,11 +28,9 @@ func Login(context *gin.Context) {
 	}
 
 	// Llama al servicio de autenticación de usuarios con los datos de inicio de sesión
-	response := usersService.Login(loginRequest)
-
-	// Verificar si la respuesta contiene un error
-	if response.Error != "" {
-		context.JSON(http.StatusUnauthorized, gin.H{"error": response.Error})
+	response, err := usersService.Login(ctrl.db, loginRequest)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -34,10 +38,8 @@ func Login(context *gin.Context) {
 	context.JSON(http.StatusOK, response)
 }
 
-var db *gorm.DB //variable global de la base de datos (VALIDAR!!!!)
-
-func Register(context *gin.Context) {
-	var registerRequest usersDomain.RegisterRequest
+func (ctrl *Controller) Register(context *gin.Context) {
+	var registerRequest dtos.RegisterRequestDTO
 
 	// Recibe el cuerpo JSON de la solicitud y maneja errores
 	if err := context.ShouldBindJSON(&registerRequest); err != nil {
@@ -46,7 +48,7 @@ func Register(context *gin.Context) {
 	}
 
 	// Llama al servicio de registro de usuarios con los datos de registro
-	response, err := usersService.Register(db, registerRequest)
+	response, err := usersService.Register(ctrl.db, registerRequest)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
