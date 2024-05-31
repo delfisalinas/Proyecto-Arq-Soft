@@ -4,21 +4,32 @@ import (
 	usersController "backend/controllers/users"
 	"backend/domain/users"
 	"backend/router"
+	"fmt"
+	"log"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 func main() {
+	dbUser := "root"
+	dbPass := ""
+	dbHost := "localhost"
+	dbPort := "3306"
+	dbName := "gestion_de_cursos_arqsoft"
 	// Conectar a la base de datos
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		dbUser, dbPass, dbHost, dbPort, dbName)
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic("failed to connect database")
+		log.Fatalf("Error al conectar con la base de datos", err)
 	}
 
 	// Migrar los modelos a la base de datos
-	db.AutoMigrate(&users.User{})
+	if err := db.AutoMigrate(&users.User{}); err != nil {
+		log.Fatalf("No se pudo migrar a la base de datos", err)
+	}
 
 	// Inicializar el enrutador de Gin
 	r := gin.Default()
@@ -30,12 +41,7 @@ func main() {
 	router.MapUrls(r, controller)
 
 	// Ejecutar el servidor
-	r.Run()
+	if err := r.Run(); err != nil {
+		log.Fatalf("Error de correr el servidor", err)
+	}
 }
-
-/* OLD CODE
-	engine := gin.New()
-	router.MapUrls(engine)
-	engine.Run(":8080") //para el frontend se suele usar el puerto 3000
-} //usar postman para probar el backend
-*/

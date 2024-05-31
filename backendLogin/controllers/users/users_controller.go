@@ -15,7 +15,7 @@ type Controller struct {
 }
 
 func NewController(db *gorm.DB) *Controller {
-	return &Controller{db}
+	return &Controller{db: db}
 }
 
 func (ctrl *Controller) Login(context *gin.Context) {
@@ -23,7 +23,7 @@ func (ctrl *Controller) Login(context *gin.Context) {
 
 	// Recibe el cuerpo JSON de la solicitud y maneja errores
 	if err := context.ShouldBindJSON(&loginRequest); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body!"})
 		return
 	}
 
@@ -43,7 +43,7 @@ func (ctrl *Controller) Register(context *gin.Context) {
 
 	// Recibe el cuerpo JSON de la solicitud y maneja errores
 	if err := context.ShouldBindJSON(&registerRequest); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body!!"})
 		return
 	}
 

@@ -76,6 +76,11 @@ func Register(db *gorm.DB, request dtos.RegisterRequestDTO) (dtos.RegisterRespon
 		return dtos.RegisterResponseDTO{}, err
 	}
 
+	// Establecer el user_type por defecto como "alumno" si no se proporciona
+	if request.UserType == "" {
+		request.UserType = "alumno"
+	}
+
 	// Crear el nuevo usuario
 	user := users.User{
 		Username: request.Username,

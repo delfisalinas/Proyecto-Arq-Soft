@@ -17,7 +17,7 @@ type RegisterRequestDTO struct {
 	Username string `json:"username" binding:"required"`
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required"`
-	UserType string `json:"user_type" binding:"required"` // "alumno" o "administrador"
+	UserType string `json:"user_type"` // "alumno" o "administrador"
 }
 
 // RegisterResponseDTO representa la respuesta de registro.
