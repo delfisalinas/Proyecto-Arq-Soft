@@ -2,7 +2,7 @@ package users
 
 import (
 	"backend/domain/users"
-	"backend/dtos"
+	dtos "backend/dtos/users"
 	"errors"
 	"time"
 
