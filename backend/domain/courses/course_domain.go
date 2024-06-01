@@ -2,29 +2,29 @@ package courses
 
 // Course representa la estructura de un curso
 type Course struct {
-	ID           uint   `json:"id" gorm:"primaryKey"` // Identificador único del curso
-	Name         string `json:"name"`                 // Nombre del curso
-	Description  string `json:"description"`          // Descripción del curso
-	Category     string `json:"category"`             // Categoría del curso
-	Duration     string `json:"duration"`             // Duración del curso
-	InstructorID uint   `json:"instructor_id"`        // ID del instructor que imparte el curso
+	ID           uint   `gorm:"primaryKey;AUTO_INCREMENT"` // Identificador único del curso
+	Name         string `gorm:"type:longtext"`             // Nombre del curso
+	Description  string `gorm:"type:longtext"`             // Descripción del curso
+	Category     string `gorm:"type:longtext"`             // Categoría del curso
+	Duration     string `gorm:"type:longtext"`             // Duración del curso
+	InstructorID uint   `gorm:"foreignKey"`                // ID del instructor que imparte el curso
 }
 
 // CreateCourseRequest representa la solicitud para crear un curso
 type CreateCourseRequest struct {
-	Name         string `json:"name" binding:"required"`
-	Description  string `json:"description" binding:"required"`
-	Category     string `json:"category" binding:"required"`
-	Duration     string `json:"duration" binding:"required"`
-	InstructorID uint   `json:"instructor_id" binding:"required"`
+	Name         string `gorm:"type:longtext" binding:"required"`
+	Description  string `gorm:"type:longtext" binding:"required"`
+	Category     string `gorm:"type:longtext" binding:"required"`
+	Duration     string `gorm:"type:longtext" binding:"required"`
+	InstructorID uint   `gorm:"foreignKey" binding:"required"`
 }
 
 // UpdateCourseRequest representa la solicitud para actualizar un curso
 type UpdateCourseRequest struct {
-	ID           uint   `json:"id" binding:"required"`
-	Name         string `json:"name"`
-	Description  string `json:"description"`
-	Category     string `json:"category"`
-	Duration     string `json:"duration"`
-	InstructorID uint   `json:"instructor_id"`
+	ID           uint   `gorm:"primaryKey;AUTO_INCREMENT" binding:"required"`
+	Name         string `gorm:"type:longtext"`
+	Description  string `gorm:"type:longtext"`
+	Category     string `gorm:"type:longtext"`
+	Duration     string `gorm:"type:longtext"`
+	InstructorID uint   `gorm:"foreignKey"`
 }
