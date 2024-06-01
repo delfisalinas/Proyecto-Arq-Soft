@@ -20,11 +20,13 @@ func main() {
 	dbHost := "localhost"
 	dbPort := "3306"
 	dbName := "gestion_de_cursos_arqsoft"
+
 	// Conectar a la base de datos
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		dbUser, dbPass, dbHost, dbPort, dbName)
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
 	if err != nil {
 		log.Fatalf("Error al conectar con la base de datos", err)
 	}

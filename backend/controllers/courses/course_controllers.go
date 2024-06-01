@@ -1,8 +1,7 @@
 package courses
 
 import (
-	"backend/domain/courses"
-	coursesDomain "backend/domain/courses"
+	dtos "backend/dtos/courses"               // Importar los DTOs de cursos
 	coursesService "backend/services/courses" // Importar el servicio de cursos
 	"net/http"
 
@@ -22,7 +21,7 @@ func NewController(db *gorm.DB) *Controller {
 
 // CreateCourse maneja la creación de un nuevo curso
 func (ctrl *Controller) CreateCourse(context *gin.Context) {
-	var req coursesDomain.CreateCourseRequest
+	var req dtos.CreateCourseRequestDTO
 	if err := context.ShouldBindJSON(&req); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request format: " + err.Error()})
 		return
@@ -37,7 +36,7 @@ func (ctrl *Controller) CreateCourse(context *gin.Context) {
 
 // UpdateCourse maneja la actualización de un curso existente
 func (ctrl *Controller) UpdateCourse(context *gin.Context) {
-	var req courses.UpdateCourseRequest
+	var req dtos.UpdateCourseRequestDTO
 	if err := context.ShouldBindJSON(&req); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request format: " + err.Error()})
 		return
