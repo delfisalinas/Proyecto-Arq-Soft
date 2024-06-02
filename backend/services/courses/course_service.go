@@ -131,3 +131,24 @@ func DeleteCourse(db *gorm.DB, courseID string) error {
 	}
 	return nil
 }
+
+// SearchCourses busca cursos por nombre o categoría en la base de datos
+func SearchCourses(db *gorm.DB, query string) ([]dtos.CourseResponseDTO, error) {
+	var courses []courses.Course
+	if err := db.Where("name LIKE ? OR category LIKE ?", "%"+query+"%", "%"+query+"%").Find(&courses).Error; err != nil {
+		return nil, err
+	}
+
+	var coursesDTO []dtos.CourseResponseDTO
+	for _, course := range courses {
+		coursesDTO = append(coursesDTO, dtos.CourseResponseDTO{
+			ID:           course.ID,
+			Name:         course.Name,
+			Description:  course.Description,
+			Category:     course.Category,
+			Duration:     course.Duration,
+			InstructorID: course.InstructorID,
+		})
+	}
+	return coursesDTO, nil
+}

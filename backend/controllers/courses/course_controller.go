@@ -79,3 +79,14 @@ func (ctrl *Controller) DeleteCourse(context *gin.Context) {
 	}
 	context.Status(http.StatusOK)
 }
+
+// SearchCourses maneja la búsqueda de cursos por nombre o categoría
+func (ctrl *Controller) SearchCourses(context *gin.Context) {
+	query := context.Query("q")
+	courses, err := coursesService.SearchCourses(ctrl.db, query)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search courses: " + err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, courses)
+}
