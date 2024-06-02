@@ -44,6 +44,17 @@ func (ctrl *Controller) GetCourses(context *gin.Context) {
 	context.JSON(http.StatusOK, courses)
 }
 
+// GetCourseByID maneja la obtención de un curso por su ID
+func (ctrl *Controller) GetCourseByID(context *gin.Context) {
+	courseID := context.Param("id")
+	course, err := coursesService.GetCourseByID(ctrl.db, courseID)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get course: " + err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, course)
+}
+
 // UpdateCourse maneja la actualización de un curso existente
 func (ctrl *Controller) UpdateCourse(context *gin.Context) {
 	var req dtos.UpdateCourseRequestDTO

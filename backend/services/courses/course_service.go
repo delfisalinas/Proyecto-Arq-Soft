@@ -61,6 +61,26 @@ func GetCourses(db *gorm.DB) ([]dtos.CourseResponseDTO, error) {
 	return coursesDTO, nil
 }
 
+// GetCourseByID obtiene un curso por ID de la base de datos
+func GetCourseByID(db *gorm.DB, courseID string) (dtos.CourseResponseDTO, error) {
+	var course courses.Course
+	// Buscar el curso por ID en la base de datos
+	if err := db.First(&course, courseID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return dtos.CourseResponseDTO{}, errors.New("course not found")
+		}
+		return dtos.CourseResponseDTO{}, err
+	}
+	return dtos.CourseResponseDTO{
+		ID:           course.ID,
+		Name:         course.Name,
+		Description:  course.Description,
+		Category:     course.Category,
+		Duration:     course.Duration,
+		InstructorID: course.InstructorID,
+	}, nil
+}
+
 // UpdateCourse actualiza un curso existente en la base de datos
 func UpdateCourse(db *gorm.DB, req dtos.UpdateCourseRequestDTO) (dtos.CourseResponseDTO, error) {
 	var course courses.Course
