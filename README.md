@@ -114,6 +114,7 @@ Proyecto-Arq-Soft/
 ├── docker-compose.yml # Configuración de Docker Compose
 └── README.md          # Archivo README
 
+
 ## Contribuciones
 ¡Las contribuciones son bienvenidas! Por favor, abre un issue o un pull request para discutir cualquier cambio importante.
 
