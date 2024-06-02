@@ -34,6 +34,16 @@ func (ctrl *Controller) CreateCourse(context *gin.Context) {
 	context.JSON(http.StatusOK, course)
 }
 
+// GetCourses maneja la obtención de todos los cursos
+func (ctrl *Controller) GetCourses(context *gin.Context) {
+	courses, err := coursesService.GetCourses(ctrl.db)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to list courses: " + err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, courses)
+}
+
 // UpdateCourse maneja la actualización de un curso existente
 func (ctrl *Controller) UpdateCourse(context *gin.Context) {
 	var req dtos.UpdateCourseRequestDTO

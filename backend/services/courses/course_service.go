@@ -38,6 +38,29 @@ func CreateCourse(db *gorm.DB, req dtos.CreateCourseRequestDTO) (dtos.CourseResp
 	}, nil
 }
 
+// GetCourses obtiene todos los cursos de la base de datos
+func GetCourses(db *gorm.DB) ([]dtos.CourseResponseDTO, error) {
+	var courses []courses.Course
+	// Buscar todos los cursos en la base de datos
+	if err := db.Find(&courses).Error; err != nil {
+		return nil, err
+	}
+
+	// Convertir los cursos encontrados a DTOs
+	var coursesDTO []dtos.CourseResponseDTO
+	for _, course := range courses {
+		coursesDTO = append(coursesDTO, dtos.CourseResponseDTO{
+			ID:           course.ID,
+			Name:         course.Name,
+			Description:  course.Description,
+			Category:     course.Category,
+			Duration:     course.Duration,
+			InstructorID: course.InstructorID,
+		})
+	}
+	return coursesDTO, nil
+}
+
 // UpdateCourse actualiza un curso existente en la base de datos
 func UpdateCourse(db *gorm.DB, req dtos.UpdateCourseRequestDTO) (dtos.CourseResponseDTO, error) {
 	var course courses.Course

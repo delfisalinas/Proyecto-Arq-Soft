@@ -10,6 +10,8 @@ import (
 func MapCourseUrls(engine *gin.Engine, ctrl *coursesController.Controller) {
 	// Ruta para crear un nuevo curso
 	engine.POST("/courses", ctrl.CreateCourse)
+	// Ruta para obtener todos los cursos
+	engine.GET("/courses", ctrl.GetCourses)
 	// Ruta para actualizar un curso existente
 	engine.PUT("/courses/:id", ctrl.UpdateCourse)
 	// Ruta para eliminar un curso existente

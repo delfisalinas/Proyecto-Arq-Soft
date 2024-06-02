@@ -2,9 +2,12 @@ package main
 
 import (
 	courseController "backend/controllers/courses"
+	inscriptionController "backend/controllers/inscriptions"
 	usersController "backend/controllers/users"
+	domainInscriptions "backend/domain/inscriptions"
 	domainUsers "backend/domain/users"
 	routerCourses "backend/router/courses"
+	routerInscriptions "backend/router/inscriptions"
 	routerUsers "backend/router/users"
 	"fmt"
 	"log"
@@ -32,7 +35,7 @@ func main() {
 	}
 
 	// Migrar los modelos a la base de datos
-	if err := db.AutoMigrate(&domainUsers.User{}); err != nil {
+	if err := db.AutoMigrate(&domainUsers.User{}, &domainInscriptions.Inscription{}); err != nil {
 		log.Fatalf("No se pudo migrar a la base de datos", err)
 	}
 
@@ -40,12 +43,14 @@ func main() {
 	r := gin.Default()
 
 	// Inicializar los controladores
-	controller := usersController.NewController(db)
+	usersController := usersController.NewController(db)
 	courseController := courseController.NewController(db)
+	inscriptionController := inscriptionController.NewController(db)
 
 	// Pasar el controlador al enrutador
-	routerUsers.MapUrls(r, controller)
+	routerUsers.MapUrls(r, usersController)
 	routerCourses.MapCourseUrls(r, courseController)
+	routerInscriptions.MapInscriptionUrls(r, inscriptionController)
 
 	// Ejecutar el servidor
 	if err := r.Run(); err != nil {
