@@ -2,6 +2,7 @@ package courses
 
 import (
 	"backend/domain/courses"
+	"backend/domain/inscriptions"
 	dtos "backend/dtos/courses"
 	"errors"
 
@@ -125,6 +126,10 @@ func UpdateCourse(db *gorm.DB, req dtos.UpdateCourseRequestDTO) (dtos.CourseResp
 
 // DeleteCourse elimina un curso de la base de datos
 func DeleteCourse(db *gorm.DB, courseID string) error {
+	// Eliminamos primero la inscripción
+	if err := db.Where("course_id = ?", courseID).Delete(&inscriptions.Inscription{}).Error; err != nil {
+		return err
+	}
 	// Intentar eliminar el curso por ID
 	if err := db.Delete(&courses.Course{}, courseID).Error; err != nil {
 		return err
