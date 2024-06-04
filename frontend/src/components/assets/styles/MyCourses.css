@@ -1,0 +1,32 @@
+.my-courses {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.my-courses h1 {
+    color: #333;
+}
+
+.my-courses ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.my-courses li {
+    padding: 10px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.my-courses li a {
+    text-decoration: none;
+    color: #0056b3;
+}
+
+.my-courses li a:hover {
+    text-decoration: underline;
+}

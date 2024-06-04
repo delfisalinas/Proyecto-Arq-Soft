@@ -1,0 +1,16 @@
+.course-details {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .course-details h1 {
+    color: #333;
+  }
+  
+  .course-details p {
+    margin: 10px 0;
+    color: #666;
+  }
+  
