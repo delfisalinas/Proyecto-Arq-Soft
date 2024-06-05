@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function ManageCourses() {
     const [cursos, setCursos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchCursos();
@@ -29,46 +31,23 @@ function ManageCourses() {
             setError('Error deleting course');
         }
     };
-    const handleAddCourse = async (courseData) => {
-        try {
-            await axios.post('http://localhost:8080/courses', courseData);
-            fetchCursos();  // Refetch the courses after adding
-        } catch (error) {
-            setError('Error adding course');
-        }
-    };
-    
-    const handleEditCourse = async (id, courseData) => {
-        try {
-            await axios.put(`http://localhost:8080/courses/${id}`, courseData);
-            fetchCursos();  // Refetch the courses after editing
-        } catch (error) {
-            setError('Error editing course');
-        }
-    };
 
     return (
         <div>
             <h1>Manage Courses</h1>
-            {loading ? <p>Loading...</p> : error ? <p>{error}</p> : (
-                <ul>
-                    {cursos.map(curso => (
-                        <li key={curso.id}>
-                            {curso.name}
-                            <button onClick={() => handleDelete(curso.id)}>Borrar</button>
-                            <button onClick={() => handleEditCourse(curso.id)}>Editar</button>
-                        
-                        </li>
-                    ))}
-                    <button onClick={() => handleAddCourse()}>Agregar</button>
-                </ul>
-            )}
+            {loading ? <p>Loading...</p> : error ? <p>{error}</p> : null}
+            <button onClick={() => navigate('/add-course')} style={{ margin: '10px', padding: '5px' }}>Add New Course</button>
+            <ul>
+                {cursos.map(curso => (
+                    <li key={curso.id}>
+                        {curso.name}
+                        <button onClick={() => handleDelete(curso.id)} style={{ margin: '5px', padding: '5px' }}>Delete</button>
+                        <button onClick={() => navigate(`/edit-course/${curso.id}`)} style={{ margin: '5px', padding: '5px' }}>Edit</button>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
-
-  
-    
 }
-
 
 export default ManageCourses;

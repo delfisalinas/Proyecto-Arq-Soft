@@ -7,6 +7,8 @@ import CourseDetails from './components/courses/CourseDetails';
 import MyCourses from './components/courses/MyCourses';
 import SearchCourses from './components/courses/SearchCourses';
 import ManageCourses from './components/courses/ManageCourses';
+import AddCourse from './components/courses/AddCourse';
+import EditCourse from './components/courses/EditCourse';
 import { Navigate } from 'react-router-dom';
 
 
@@ -23,6 +25,8 @@ function App() {
         <Route path="/my-courses" element={<MyCourses />} />
         <Route path="/search" element={<SearchCourses />} />
         <Route path="/manage-courses" element={<ManageCourses />} />
+        <Route path="/add-course" element={<AddCourse />} />
+        <Route path="/edit-course/:id" element={<EditCourse />} />
     </Routes>
 </Router>
   );
