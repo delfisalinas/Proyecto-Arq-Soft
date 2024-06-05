@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { UserContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
+
 
 function Register() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -16,6 +20,7 @@ function Register() {
                 password
             });
             alert('Registration successful');
+            navigate('/home');
         } catch (error) {
             setError('Failed to register');
         }

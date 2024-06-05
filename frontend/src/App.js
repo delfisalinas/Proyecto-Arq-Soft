@@ -6,21 +6,25 @@ import Register from './components/auth/Register';
 import CourseDetails from './components/courses/CourseDetails';
 import MyCourses from './components/courses/MyCourses';
 import SearchCourses from './components/courses/SearchCourses';
+import ManageCourses from './components/courses/ManageCourses';
+import { Navigate } from 'react-router-dom';
 
 
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
+<Router>
+    <Routes>
+        <Route path="/" element={<Navigate replace to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/courses/:id" element={<CourseDetails />} />
         <Route path="/my-courses" element={<MyCourses />} />
         <Route path="/search" element={<SearchCourses />} />
-      </Routes>
-    </Router>
+        <Route path="/manage-courses" element={<ManageCourses />} />
+    </Routes>
+</Router>
   );
 }
 

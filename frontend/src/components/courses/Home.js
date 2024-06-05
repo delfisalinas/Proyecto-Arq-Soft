@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import '../assets/styles/Home.css';
-
 
 function Home() {
   const [cursos, setCursos] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCursos = async () => {
@@ -21,11 +22,16 @@ function Home() {
 
   return (
     <div className="home-container">
-      <h1>Cursos Disponibles</h1>
+      <div className="header">
+        <h1>Mis Cursos</h1>
+        <button onClick={() => navigate('/search')}>Buscar un curso</button>
+        <button onClick={() => navigate('/manage-courses')}>Gestión de Cursos</button>
+      </div>
+      <h2>Cursos Disponibles</h2>
       <ul className="course-list">
         {cursos.map(curso => (
-          <li key={curso.id} className="course-item">
-            <span className="course-name">{curso.name}</span> - <span className="course-description">{curso.description}</span>
+          <li key={curso.id} className="course-item" onClick={() => navigate(`/courses/${curso.id}`)}>
+            {curso.name} - Click aquí para más detalles
           </li>
         ))}
       </ul>
@@ -34,4 +40,3 @@ function Home() {
 }
 
 export default Home;
-
