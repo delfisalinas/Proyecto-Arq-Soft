@@ -2,12 +2,17 @@ package router
 
 import (
 	coursesController "backend/controllers/courses"
+	"backend/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
 // MapCourseUrls mapea las rutas de cursos a sus respectivos controladores
 func MapCourseUrls(engine *gin.Engine, ctrl *coursesController.Controller) {
+	// Agrupar las rutas protegidas por el middleware
+	auth := engine.Group("/courses")
+	auth.Use(middleware.AuthMiddleware()) // Aplica el middleware de autenticación
+
 	// Ruta para crear un nuevo curso
 	engine.POST("/courses", ctrl.CreateCourse)
 	// Ruta para obtener todos los cursos

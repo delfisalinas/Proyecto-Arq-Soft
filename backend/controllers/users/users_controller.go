@@ -10,14 +10,17 @@ import (
 	"gorm.io/gorm"
 )
 
+// Controller estructura que contiene la base de datos
 type Controller struct {
 	db *gorm.DB
 }
 
+// NewController función que inicializa el controlador con la base de datos
 func NewController(db *gorm.DB) *Controller {
 	return &Controller{db: db}
 }
 
+// Login función que maneja la solicitud de inicio de sesión
 func (ctrl *Controller) Login(context *gin.Context) {
 	var loginRequest dtos.LoginRequestDTO
 
@@ -38,6 +41,7 @@ func (ctrl *Controller) Login(context *gin.Context) {
 	context.JSON(http.StatusOK, response)
 }
 
+// Register función que maneja la solicitud de registro
 func (ctrl *Controller) Register(context *gin.Context) {
 	var registerRequest dtos.RegisterRequestDTO
 
