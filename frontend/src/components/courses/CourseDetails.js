@@ -22,7 +22,7 @@ function CourseDetails() {
       setCourse(response.data);
       setLoading(false);
     } catch (err) {
-      setError('Error fetching course details');
+      setError('Error fetching course details ' + err);
       setLoading(false);
     }
   };
