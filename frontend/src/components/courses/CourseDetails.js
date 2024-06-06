@@ -12,16 +12,20 @@ function CourseDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  console.log('courseId from useParams:', courseId);
+  
+  const CourseId = parseInt(courseId, 10);
+  
+  console.log('CourseId after parseInt:', CourseId);
+
   useEffect(() => {
-    let CourseId = parseInt(courseId);
-    if (!isNaN(CourseId)) {
-      alert('Invalid course');
-      fetchCourse();
-    } else {
-      setError('Invalid course ID');
+    if (isNaN(CourseId)) {
+      setError('No se convierte a entero el id');
       setLoading(false);
+      return;
     }
-  }, [courseId]);
+    fetchCourse();
+  }, [CourseId]);
 
   const fetchCourse = async () => {
     try {
