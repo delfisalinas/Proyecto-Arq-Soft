@@ -13,12 +13,19 @@ function CourseDetails() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchCourse();
+    let CourseId = parseInt(courseId);
+    if (!isNaN(CourseId)) {
+      alert('Invalid course');
+      fetchCourse();
+    } else {
+      setError('Invalid course ID');
+      setLoading(false);
+    }
   }, [courseId]);
 
   const fetchCourse = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/courses/${courseId}`);
+      const response = await axios.get(`http://localhost:8080/courses/${CourseId}`);
       setCourse(response.data);
       setLoading(false);
     } catch (err) {

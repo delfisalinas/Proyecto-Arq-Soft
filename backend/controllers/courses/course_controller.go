@@ -5,8 +5,6 @@ import (
 	coursesService "backend/services/courses" // Importar el servicio de cursos
 	"net/http"
 
-	"log"
-
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -50,11 +48,10 @@ func (ctrl *Controller) GetCourses(context *gin.Context) {
 func (ctrl *Controller) GetCourseByID(context *gin.Context) {
 	courseID := context.Param("id")
 	course, err := coursesService.GetCourseByID(ctrl.db, courseID)
-	if err = ctrl.db.First(&course, courseID).Error; err != nil {
-		context.JSON(http.StatusNotFound, gin.H{"error": "Course not found"})
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get course: " + err.Error()})
 		return
 	}
-	log.Printf("Course found: %+v\n", course) // Log para ver el curso encontrado
 	context.JSON(http.StatusOK, gin.H{
 		"id":            course.ID,
 		"name":          course.Name,
