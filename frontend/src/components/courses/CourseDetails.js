@@ -48,9 +48,9 @@ function CourseDetails() {
     <div className="course-details">
       <h1>{course.name}</h1>
       <p><strong>Description:</strong> {course.description}</p>
-      <p><strong>Instructor:</strong> {course.instructorName}</p>
+      <p><strong>Category:</strong> {course.category}</p>
       <p><strong>Duration:</strong> {course.duration}</p>
-      <p><strong>Requirements:</strong> {course.requirements}</p>
+      <p><strong>Instructor ID:</strong> {course.instructor_id}</p>
       <button onClick={handleEnroll}>Inscribirse</button>
     </div>
   );

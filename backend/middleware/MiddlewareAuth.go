@@ -51,3 +51,18 @@ func AuthMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+// AdminMiddleware devuelve una función middleware que se usa para proteger rutas que requieren privilegios de administrador.
+func AdminMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userType, exists := c.Get("user_type")
+
+		if !exists || userType != "admin" {
+			c.JSON(http.StatusForbidden, gin.H{"error": "Forbidden: Admins only"})
+			c.Abort() // Abortamos el manejo de la solicitud.
+			return
+		}
+
+		c.Next()
+	}
+}

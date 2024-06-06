@@ -32,6 +32,7 @@ function Home() {
         {cursos.map(curso => (
           <li key={curso.id} className="course-item" onClick={() => navigate(`/courses/${curso.id}`)}>
             {curso.name} - Click aquí para más detalles
+            <button onClick={() => navigate(`/courses/${curso.id}`)} style={{ marginLeft: '10px' }}>Click para conocer más detalles</button>
           </li>
         ))}
       </ul>

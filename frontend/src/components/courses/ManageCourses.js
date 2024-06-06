@@ -43,6 +43,7 @@ function ManageCourses() {
                         {curso.name}
                         <button onClick={() => handleDelete(curso.id)} style={{ margin: '5px', padding: '5px' }}>Delete</button>
                         <button onClick={() => navigate(`/edit-course/${curso.id}`)} style={{ margin: '5px', padding: '5px' }}>Edit</button>
+                        <button onClick={() => navigate(`/courses/${curso.id}`)} style={{ margin: '5px', padding: '5px' }}>Click para conocer más detalles</button>
                     </li>
                 ))}
             </ul>

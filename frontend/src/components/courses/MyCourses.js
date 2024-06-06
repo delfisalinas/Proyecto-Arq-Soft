@@ -35,9 +35,12 @@ function MyCourses() {
             <h1>Mis Cursos</h1>
             {courses.length > 0 ? (
                 <ul>
-                    {courses.map(course => (
+                   {courses.map(course => (
                         <li key={course.id}>
-                            <Link to={`/courses/${course.id}`}>{course.name}</Link> - {course.description}
+                            {course.name} - {course.description}
+                            <Link to={`/courses/${course.id}`}><Link to={`/courses/${course.id}`}>{course.name}</Link> - {course.description}
+                                <button style={{ marginLeft: '10px' }}>Click para conocer más detalles</button>
+                            </Link>
                         </li>
                     ))}
                 </ul>

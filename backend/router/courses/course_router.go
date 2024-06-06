@@ -13,16 +13,18 @@ func MapCourseUrls(engine *gin.Engine, ctrl *coursesController.Controller) {
 	auth := engine.Group("/courses")
 	auth.Use(middleware.AuthMiddleware()) // Aplica el middleware de autenticación
 
-	// Ruta para crear un nuevo curso
-	engine.POST("/courses", ctrl.CreateCourse)
+	// Ruta para crear un nuevo curso, solo accesible por administradores
+	auth.POST("", middleware.AdminMiddleware(), ctrl.CreateCourse)
+	// Ruta para actualizar un curso existente, solo accesible por administradores
+	auth.PUT("/:id", middleware.AdminMiddleware(), ctrl.UpdateCourse)
+	// Ruta para eliminar un curso existente, solo accesible por administradores
+	auth.DELETE("/:id", middleware.AdminMiddleware(), ctrl.DeleteCourse)
+
+	// Rutas públicas
 	// Ruta para obtener todos los cursos
 	engine.GET("/courses", ctrl.GetCourses)
 	// Ruta para obtener un curso por su ID
 	engine.GET("/courses/:id", ctrl.GetCourseByID)
 	// Ruta para buscar cursos por nombre o categoría
 	engine.GET("/search/courses", ctrl.SearchCourses) //http://localhost:8080/search/courses?q=<query> en query va nombre o cat
-	// Ruta para actualizar un curso existente
-	engine.PUT("/courses/:id", ctrl.UpdateCourse)
-	// Ruta para eliminar un curso existente
-	engine.DELETE("/courses/:id", ctrl.DeleteCourse)
 }
