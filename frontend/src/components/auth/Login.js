@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import './Login.css'; // Asegúrate de importar el archivo CSS que contiene los estilos
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -17,15 +18,14 @@ function Login() {
                 username,
                 password
             });
-            const { id,user_type, token } = response.data;
-
+            const { id, user_type, token } = response.data;
             
             localStorage.setItem('userId', id);
             localStorage.setItem('usertype', user_type);
             localStorage.setItem('token', token);
             console.log(user_type);
             setUser(response.data);
-            alert('Login successful' + user_type);
+            alert('Login successful: ' + user_type);
             navigate('/home');
         } catch (error) {
             setError('Failed to login: ' + error);
@@ -37,16 +37,15 @@ function Login() {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" required />
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" required />
-                <button type="submit">Login</button>
-                {/* Botón adicional para registrarse */}
-                <button type="button" onClick={handleRegisterRedirect}>Registrarse</button>
+        <div className="login-container">
+            <h2>Iniciar sesión</h2>
+            <form onSubmit={handleLogin} className="login-form">
+                <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Usuario" required className="input-field" />
+                <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Contraseña" required className="input-field" />
+                <button type="submit" className="login-button">Iniciar sesión</button>
+                <button type="button" onClick={handleRegisterRedirect} className="register-button">Registrarse</button>
             </form>
-            {error && <p>{error}</p>}
+            {error && <p className="error-message">{error}</p>}
         </div>
     );
 }
