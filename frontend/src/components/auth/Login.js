@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
-import './Login.css'; // Asegúrate de que el archivo CSS está siendo importado correctamente
+import './Login.css'; 
 
 function Login() {
     const [username, setUsername] = useState('');
