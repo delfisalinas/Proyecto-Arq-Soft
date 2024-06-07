@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
-
+import './Register.css'; // Asegúrate de que el archivo CSS está siendo importado correctamente
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -22,33 +22,33 @@ function Register() {
                 password,
                 user_type
             });
-            const {id} = response.data;
+            const { id } = response.data;
+
             localStorage.setItem('userId', id);
-           localStorage.setItem('usertype', user_type);
-           console.log(user_type);
+            localStorage.setItem('usertype', user_type);
+            console.log(user_type);
             setUser(response.data);
             alert('Registration successful');
             navigate('/home');
         } catch (error) {
-            setError('Failed to register: ' + error);
+            setError('Failed to register: ' + error.message);
         }
     };
 
     return (
-        <div>
+        <div className="register-container">
             <h2>Register</h2>
-            <form onSubmit={handleRegister}>
-                <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" required />
-                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" required />
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" required />
-                <select value={user_type} onChange={e => setUserType(e.target.value)} required>
+            <form onSubmit={handleRegister} className="register-form">
+                <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" required className="input-field" />
+                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" required className="input-field" />
+                <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" required className="input-field" />
+                <select value={user_type} onChange={e => setUserType(e.target.value)} required className="input-field">
                     <option value="alumno">Alumno</option>
                     <option value="administrador">Administrador</option>
                 </select>
-
-                <button type="submit">Register</button>
+                <button type="submit" className="register-button">Register</button>
             </form>
-            {error && <p>{error}</p>}
+            {error && <p className="error-message">{error}</p>}
         </div>
     );
 }
