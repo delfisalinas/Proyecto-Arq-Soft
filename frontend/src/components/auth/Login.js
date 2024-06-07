@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
-import './Login.css'; // Asegúrate de importar el archivo CSS que contiene los estilos
+import './Login.css'; // Asegúrate de que el archivo CSS está siendo importado correctamente
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -19,25 +19,25 @@ function Login() {
                 password
             });
             const { id, user_type, token } = response.data;
-            
+
             localStorage.setItem('userId', id);
             localStorage.setItem('usertype', user_type);
             localStorage.setItem('token', token);
-            console.log(user_type);
             setUser(response.data);
             alert('Login successful: ' + user_type);
             navigate('/home');
         } catch (error) {
-            setError('Failed to login: ' + error);
+            setError('Failed to login: ' + error.message);
         }
     };
 
     const handleRegisterRedirect = () => {
-        navigate('/register'); // Asegúrate de que esta es la ruta correcta para el registro
+        navigate('/register');
     };
 
     return (
         <div className="login-container">
+            <h1 className="welcome-title">Bienvenido al Sistema de Cursos</h1>
             <h2>Iniciar sesión</h2>
             <form onSubmit={handleLogin} className="login-form">
                 <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Usuario" required className="input-field" />
