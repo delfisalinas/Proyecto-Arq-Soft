@@ -8,14 +8,14 @@ function AddCourse() {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
     const [duration, setDuration] = useState('');
-    const [instructor_id, setInstructorId] = useState('');
+    const [instructorId, setInstructorId] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();  // Prevenir el comportamiento por defecto del formulario
 
-        if (!name || !description || !category || !duration || !instructor_id) {
+        if (!name || !description || !category || !duration || !instructorId) {
             setError('Todos los campos son obligatorios');
             return;
         }
@@ -26,7 +26,7 @@ function AddCourse() {
                 description,
                 category,
                 duration,
-                instructor_id // Asegúrate de que este campo coincida con lo que espera tu backend
+                instructor_id: parseInt(instructorId)
             });
             // Lógica post-creación
             setError('');
@@ -39,6 +39,7 @@ function AddCourse() {
 
     return (
         <div className="add-course-container">
+             <button className="back-button" onClick={() => navigate('/home')}>Volver</button>
             <h1>Agregar nuevo curso</h1>
             {error && <p className="error-message">{error}</p>}
             <form onSubmit={handleSubmit} className="add-course-form">
@@ -46,7 +47,13 @@ function AddCourse() {
                 <input type="text" value={description} onChange={e => setDescription(e.target.value)} placeholder="Descripción" />
                 <input type="text" value={category} onChange={e => setCategory(e.target.value)} placeholder="Categoría" />
                 <input type="text" value={duration} onChange={e => setDuration(e.target.value)} placeholder="Duración" />
-                <input type="text" value={instructor_id} onChange={e => setInstructorId(e.target.value)} placeholder="ID del instructor" />
+                <input 
+                    type="number" 
+                    value={instructorId} 
+                    onChange={e => setInstructorId(e.target.value)} 
+                    placeholder="ID del instructor" 
+                    min="0"  // Asegura que solo se permitan valores positivos
+                />
                 <button type="submit" className="submit-button">Agregar curso</button>
             </form>
         </div>

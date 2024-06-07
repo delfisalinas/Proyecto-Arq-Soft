@@ -24,6 +24,7 @@ function SearchCourses() {
 
     return (
         <div className="search-container">
+             <button className="back-button" onClick={() => navigate('/home')}>Volver</button>
             <form onSubmit={handleSearch} className="search-form">
                 <input
                     type="text"

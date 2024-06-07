@@ -26,6 +26,7 @@ function App() {
         <Route path="/search" element={<SearchCourses />} />
         <Route path="/manage-courses" element={<ManageCourses />} />
         <Route path="/add-course" element={<AddCourse />} />
+        <Route path="/edit-course/:courseId" element={<EditCourse />} />        
     </Routes>
 </Router>
   );

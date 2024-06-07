@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../assets/styles/MyCourses.css';
 
 function MyCourses() {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMyCourses = async () => {
@@ -34,6 +36,7 @@ function MyCourses() {
 
     return (
         <div className="my-courses-container">
+            <button className="back-button" onClick={() => navigate('/home')}>Volver</button>
             <h1>Mis Cursos</h1>
             {courses.length > 0 ? (
                 <ul className="course-list">

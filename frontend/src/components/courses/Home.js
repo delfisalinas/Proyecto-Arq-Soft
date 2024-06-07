@@ -8,6 +8,8 @@ function Home() {
     const [cursos, setCursos] = useState([]);
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
+    const userType = localStorage.getItem('usertype');
+    const administrador = userType === 'administrador';
 
     useEffect(() => {
         const fetchCursos = async () => {
@@ -29,7 +31,7 @@ function Home() {
             <div className="header">
                 <button className="button" onClick={() => navigate('/search')}>Buscar un curso</button>
                 <button className="button" onClick={() => navigate('/my-courses')}>Mis Cursos</button>
-                <button className="button" onClick={() => navigate('/manage-courses')}>Gestión de Cursos</button>
+                {administrador && <button className="button" onClick={() => navigate('/manage-courses')}>Gestión de Cursos</button>}
             </div>
             <h2>Cursos Disponibles</h2>
             <ul className="course-list">

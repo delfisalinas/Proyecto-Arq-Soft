@@ -35,6 +35,7 @@ function ManageCourses() {
 
     return (
         <div className="manage-courses-container">
+             <button className="back-button" onClick={() => navigate('/home')}>Volver</button>
             <h1>Manage Courses</h1>
             {loading ? <p>Loading...</p> : error ? <p>{error}</p> : null}
             <button onClick={() => navigate('/add-course')} className="add-course-button">Add New Course</button>
