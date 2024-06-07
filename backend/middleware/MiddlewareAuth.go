@@ -57,7 +57,7 @@ func AdminMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userType, exists := c.Get("user_type")
 
-		if !exists || userType != "admin" {
+		if !exists || userType != "administrador" {
 			c.JSON(http.StatusForbidden, gin.H{"error": "Forbidden: Admins only"})
 			c.Abort() // Abortamos el manejo de la solicitud.
 			return

@@ -26,6 +26,9 @@ function Home() {
 
     return (
         <div className="home-container">
+            <div className="logout-container">
+                <button className="logout-button" onClick={() => navigate('/login')}>Logout</button>
+            </div>
             <div className="welcome-message">Bienvenido al Portal de Cursos</div>
             <p className="description">Explora y administra tus cursos con facilidad. Aquí puedes encontrar información detallada sobre todos los cursos disponibles y gestionar tus cursos activos.</p>
             <div className="header">
