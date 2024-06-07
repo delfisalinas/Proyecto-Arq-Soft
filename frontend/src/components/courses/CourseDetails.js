@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import '../assets/styles/CourseDetails.css';
 
-
 function CourseDetails() {
   const { courseId } = useParams();
   const navigate = useNavigate();
@@ -12,22 +11,17 @@ function CourseDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  console.log('courseId from useParams:', courseId);
-  
-  const CourseId = parseInt(courseId, 10);
-  
-  console.log('CourseId after parseInt:', CourseId);
-
   useEffect(() => {
+    const CourseId = parseInt(courseId, 10);
     if (isNaN(CourseId)) {
       setError('No se convierte a entero el id');
       setLoading(false);
       return;
     }
-    fetchCourse();
-  }, [CourseId]);
+    fetchCourse(CourseId);
+  }, [courseId]);
 
-  const fetchCourse = async () => {
+  const fetchCourse = async (CourseId) => {
     try {
       const response = await axios.get(`http://localhost:8080/courses/${CourseId}`);
       setCourse(response.data);
@@ -39,19 +33,17 @@ function CourseDetails() {
   };
 
   const handleEnroll = async () => {
-    const user_id = localStorage.getItem('userId'); // Obtener el ID del usuario logueado desde localStorag
-    
+    const user_id = localStorage.getItem('userId');
     try {
       await axios.post(`http://localhost:8080/inscriptions`, {
         user_id: parseInt(user_id),
         course_id: parseInt(courseId)
       });
       alert('Inscripción exitosa!');
-      navigate('/my-courses'); // Redirecciona a la lista de cursos del usuario
+      navigate('/home'); // Redirecciona a la página de inicio
     } catch (err) {
-      alert('Error en la inscripción' + err);
+      alert('Error en la inscripción ' + err);
     }
-    console.log(user_id);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -59,16 +51,18 @@ function CourseDetails() {
   if (!course) return <div>Curso no encontrado</div>;
 
   return (
-    <div className="course-details">
-      <h1>{course.name}</h1>
-      <p><strong>Description:</strong> {course.description}</p>
-      <p><strong>Category:</strong> {course.category}</p>
-      <p><strong>Duration:</strong> {course.duration}</p>
-      <p><strong>Instructor ID:</strong> {course.instructor_id}</p>
-      <button onClick={handleEnroll}>Inscribirse</button>
+    <div className="course-details-container">
+      <button className="back-button" onClick={() => navigate('/home')}>Volver</button>
+      <div className="course-details">
+        <h1>{course.name}</h1>
+        <p><strong>Description:</strong> {course.description}</p>
+        <p><strong>Category:</strong> {course.category}</p>
+        <p><strong>Duration:</strong> {course.duration}</p>
+        <p><strong>Instructor ID:</strong> {course.instructor_id}</p>
+        <button onClick={handleEnroll}>Inscribirse</button>
+      </div>
     </div>
   );
 }
 
 export default CourseDetails;
-

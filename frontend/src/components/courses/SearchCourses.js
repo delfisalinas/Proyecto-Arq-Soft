@@ -23,23 +23,27 @@ function SearchCourses() {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSearch}>
+        <div className="search-container">
+            <form onSubmit={handleSearch} className="search-form">
                 <input
                     type="text"
                     value={query}
                     onChange={e => setQuery(e.target.value)}
                     placeholder="Buscar cursos"
+                    className="search-input"
                 />
-                <button type="submit">Buscar</button>
+                <button type="submit" className="search-button">Buscar</button>
             </form>
-            {error && <p>{error}</p>}
-            {(!results || results.length === 0) && !error && <p>No hay cursos disponibles.</p>}
-            <ul>
+            {error && <p className="error-message">{error}</p>}
+            {(!results || results.length === 0) && !error && <p className="no-results">No hay cursos disponibles.</p>}
+            <ul className="results-list">
                 {results && results.map(course => (
-                    <li key={course.id}>
-                        {course.name} - {course.description}
-                        <button onClick={() => navigate(`/courses/${course.id}`)} style={{ marginLeft: '10px' }}>Click para conocer más detalles</button>
+                    <li key={course.id} className="result-item">
+                        <div className="course-info">
+                            <h3>{course.name}</h3>
+                            <p>{course.description}</p>
+                        </div>
+                        <button className="details-button" onClick={() => navigate(`/courses/${course.id}`)}>Click para conocer más detalles</button>
                     </li>
                 ))}
             </ul>
