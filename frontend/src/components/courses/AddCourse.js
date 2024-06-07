@@ -6,13 +6,13 @@ function AddCourse() {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
     const [duration, setDuration] = useState('');
-    const [instructorId, setInstructorId] = useState('');
+    const [instructor_id, setInstructorId] = useState('');
     const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();  // Prevenir el comportamiento por defecto del formulario
 
-        if (!name || !description || !category || !duration || !instructorId) {
+        if (!name || !description || !category || !duration || !instructor_id) {
             setError('Todos los campos son obligatorios');
             return;
         }
@@ -23,7 +23,7 @@ function AddCourse() {
                 description,
                 category,
                 duration,
-                instructor_id: instructorId  // Asegúrate de que este campo coincida con lo que espera tu backend
+                instructor_id // Asegúrate de que este campo coincida con lo que espera tu backend
             });
             // Lógica post-creación
             setError('');
@@ -43,7 +43,7 @@ function AddCourse() {
                 <input type="text" value={description} onChange={e => setDescription(e.target.value)} placeholder="Descripción" />
                 <input type="text" value={category} onChange={e => setCategory(e.target.value)} placeholder="Categoría" />
                 <input type="text" value={duration} onChange={e => setDuration(e.target.value)} placeholder="Duración" />
-                <input type="text" value={instructorId} onChange={e => setInstructorId(e.target.value)} placeholder="ID del instructor" />
+                <input type="text" value={instructor_id} onChange={e => setInstructorId(e.target.value)} placeholder="ID del instructor" />
                 <button type="submit">Agregar curso</button>
             </form>
         </div>

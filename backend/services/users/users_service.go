@@ -58,7 +58,9 @@ func Login(db *gorm.DB, request dtos.LoginRequestDTO) (dtos.LoginResponseDTO, er
 	}
 
 	return dtos.LoginResponseDTO{
-		Token: token,
+		ID:       user.ID,
+		UserType: user.UserType,
+		Token:    token,
 	}, nil
 }
 

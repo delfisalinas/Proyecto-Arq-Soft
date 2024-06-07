@@ -39,16 +39,19 @@ function CourseDetails() {
   };
 
   const handleEnroll = async () => {
+    const user_id = localStorage.getItem('userId'); // Obtener el ID del usuario logueado desde localStorag
+    
     try {
-      const response = await axios.post(`http://localhost:8080/inscriptions`, {
-        userId: 1, // Este ID debería ser el del usuario logueado
-        courseId: courseId
+      await axios.post(`http://localhost:8080/inscriptions`, {
+        user_id: parseInt(user_id),
+        course_id: parseInt(courseId)
       });
       alert('Inscripción exitosa!');
       navigate('/my-courses'); // Redirecciona a la lista de cursos del usuario
     } catch (err) {
-      alert('Error en la inscripción');
+      alert('Error en la inscripción' + err);
     }
+    console.log(user_id);
   };
 
   if (loading) return <div>Loading...</div>;

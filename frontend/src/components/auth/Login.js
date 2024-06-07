@@ -17,11 +17,18 @@ function Login() {
                 username,
                 password
             });
+            const { id,user_type, token } = response.data;
+
+            
+            localStorage.setItem('userId', id);
+            localStorage.setItem('usertype', user_type);
+            localStorage.setItem('token', token);
+            console.log(user_type);
             setUser(response.data);
-            alert('Login successful');
+            alert('Login successful' + user_type);
             navigate('/home');
         } catch (error) {
-            setError('Failed to login');
+            setError('Failed to login: ' + error);
         }
     };
 

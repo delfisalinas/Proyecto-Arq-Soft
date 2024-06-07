@@ -25,6 +25,7 @@ function Home() {
       <div className="header">
         <h1>Mis Cursos</h1>
         <button onClick={() => navigate('/search')}>Buscar un curso</button>
+        <button onClick={() => navigate('/my-courses')}>Mis Cursos</button>
         <button onClick={() => navigate('/manage-courses')}>Gestión de Cursos</button>
       </div>
       <h2>Cursos Disponibles</h2>

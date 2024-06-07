@@ -8,8 +8,10 @@ type LoginRequestDTO struct {
 
 // LoginResponseDTO representa la respuesta de login.
 type LoginResponseDTO struct {
-	Token string `json:"token"`
-	Error string `json:"error,omitempty"`
+	ID       uint   `json:"id"`
+	UserType string `json:"user_type"`
+	Token    string `json:"token"`
+	Error    string `json:"error,omitempty"`
 }
 
 // RegisterRequestDTO representa la solicitud de registro.
@@ -17,7 +19,7 @@ type RegisterRequestDTO struct {
 	Username string `json:"username" binding:"required"`
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required"`
-	UserType string `json:"user_type"` // "alumno" o "administrador"
+	UserType string `json:"user_type"`
 }
 
 // RegisterResponseDTO representa la respuesta de registro.
