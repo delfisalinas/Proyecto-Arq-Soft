@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import '../assets/styles/EditCourse.css';
 
 function EditCourse() {
     const { courseId } = useParams();
@@ -48,10 +49,10 @@ function EditCourse() {
     };
 
     return (
-        <div>
+        <div className="edit-course-container">
             <h1>Editar Curso</h1>
-            {error && <p>{error}</p>}
-            <form onSubmit={handleSubmit}>
+            {error && <p className="error-message">{error}</p>}
+            <form onSubmit={handleSubmit} className="edit-course-form">
                 <label>Nombre del curso</label>
                 <input name="name" value={courseData.name} onChange={handleChange} />
 
@@ -67,7 +68,7 @@ function EditCourse() {
                 <label>ID del Instructor</label>
                 <input name="instructor_id" value={courseData.instructor_id} onChange={handleChange} />
 
-                <button type="submit">Actualizar Curso</button>
+                <button type="submit" className="submit-button">Actualizar Curso</button>
             </form>
         </div>
     );

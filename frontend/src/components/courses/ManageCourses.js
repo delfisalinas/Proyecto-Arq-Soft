@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../assets/styles/ManageCourses.css';
 
 function ManageCourses() {
     const [cursos, setCursos] = useState([]);
@@ -33,17 +34,21 @@ function ManageCourses() {
     };
 
     return (
-        <div>
+        <div className="manage-courses-container">
             <h1>Manage Courses</h1>
             {loading ? <p>Loading...</p> : error ? <p>{error}</p> : null}
-            <button onClick={() => navigate('/add-course')} style={{ margin: '10px', padding: '5px' }}>Add New Course</button>
-            <ul>
+            <button onClick={() => navigate('/add-course')} className="add-course-button">Add New Course</button>
+            <ul className="course-list">
                 {cursos.map(curso => (
-                    <li key={curso.id}>
-                        {curso.name}
-                        <button onClick={() => handleDelete(curso.id)} style={{ margin: '5px', padding: '5px' }}>Delete</button>
-                        <button onClick={() => navigate(`/edit-course/${curso.id}`)} style={{ margin: '5px', padding: '5px' }}>Edit</button>
-                        <button onClick={() => navigate(`/courses/${curso.id}`)} style={{ margin: '5px', padding: '5px' }}>Click para conocer más detalles</button>
+                    <li key={curso.id} className="course-item">
+                        <div className="course-info">
+                            <h3>{curso.name}</h3>
+                        </div>
+                        <div className="course-actions">
+                            <button onClick={() => handleDelete(curso.id)} className="delete-button">Delete</button>
+                            <button onClick={() => navigate(`/edit-course/${curso.id}`)} className="edit-button">Edit</button>
+                            <button onClick={() => navigate(`/courses/${curso.id}`)} className="details-button">Click para conocer más detalles</button>
+                        </div>
                     </li>
                 ))}
             </ul>

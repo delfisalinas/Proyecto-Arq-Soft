@@ -8,7 +8,7 @@ body {
     padding: 0;
 }
 
-.my-courses-container {
+.edit-course-container {
     max-width: 800px;
     margin: 50px auto;
     padding: 20px;
@@ -18,41 +18,31 @@ body {
     text-align: center;
 }
 
-.course-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.course-item {
+.edit-course-form {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    margin: 10px 0;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.course-info {
+    flex-direction: column;
+    gap: 15px;
     text-align: left;
-    max-width: 70%;
-    margin-right: 20px;
 }
 
-.course-info h3 {
-    margin: 0;
-    color: #5c67f2;
-    font-size: 1.2rem;
+.edit-course-form label {
+    font-weight: 500;
 }
 
-.course-info p {
-    margin: 5px 0 0;
-    color: #666;
+.edit-course-form input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
-.details-button {
+.edit-course-form input:focus {
+    border-color: #5c67f2;
+}
+
+.submit-button {
     padding: 10px 20px;
     font-size: 1rem;
     background-color: #5c67f2;
@@ -61,9 +51,14 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s;
-    text-decoration: none;
+    align-self: center;
 }
 
-.details-button:hover {
+.submit-button:hover {
     background-color: #4a50e0;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 15px;
 }

@@ -3,9 +3,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../assets/styles/MyCourses.css';
 
-
-
-
 function MyCourses() {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -14,7 +11,6 @@ function MyCourses() {
     useEffect(() => {
         const fetchMyCourses = async () => {
             try {
-                // Asume que el backend puede identificar al usuario por el token y devuelve solo sus cursos
                 const response = await axios.get('http://localhost:8080/my-courses');
                 setCourses(response.data);
                 setLoading(false);
@@ -31,16 +27,17 @@ function MyCourses() {
     if (error) return <div>{error}</div>;
 
     return (
-        <div className="my-courses">
+        <div className="my-courses-container">
             <h1>Mis Cursos</h1>
             {courses.length > 0 ? (
-                <ul>
-                   {courses.map(course => (
-                        <li key={course.id}>
-                            {course.name} - {course.description}
-                            <Link to={`/courses/${course.id}`}><Link to={`/courses/${course.id}`}>{course.name}</Link> - {course.description}
-                                <button style={{ marginLeft: '10px' }}>Click para conocer más detalles</button>
-                            </Link>
+                <ul className="course-list">
+                    {courses.map(course => (
+                        <li key={course.id} className="course-item">
+                            <div className="course-info">
+                                <h3>{course.name}</h3>
+                                <p>{course.description}</p>
+                            </div>
+                            <Link to={`/courses/${course.id}`} className="details-button">Click para conocer más detalles</Link>
                         </li>
                     ))}
                 </ul>
