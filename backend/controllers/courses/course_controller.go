@@ -3,7 +3,9 @@ package courses
 import (
 	dtos "backend/dtos/courses"               // Importar los DTOs de cursos
 	coursesService "backend/services/courses" // Importar el servicio de cursos
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -93,6 +95,23 @@ func (ctrl *Controller) SearchCourses(context *gin.Context) {
 	courses, err := coursesService.SearchCourses(ctrl.db, query)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search courses: " + err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, courses)
+}
+
+func (ctrl *Controller) GetCoursesByUserID(context *gin.Context) {
+	userIDParam := context.Param("user_id")
+	fmt.Printf("Received userIDParam: %s\n", userIDParam)
+	userID, err := strconv.ParseUint(userIDParam, 10, 32)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		return
+	}
+
+	courses, err := coursesService.GetCoursesByUserID(ctrl.db, uint(userID))
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user courses: " + err.Error()})
 		return
 	}
 	context.JSON(http.StatusOK, courses)

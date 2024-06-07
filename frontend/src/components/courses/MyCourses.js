@@ -11,11 +11,17 @@ function MyCourses() {
     useEffect(() => {
         const fetchMyCourses = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/my-courses');
+                const userId = localStorage.getItem('userId'); // Obtener userId del localStorage
+                if (!userId) {
+                    throw new Error('User ID not found');
+                }
+
+                const response = await axios.get(`http://localhost:8080/user/${userId}/courses`); // Corrección de la URL
                 setCourses(response.data);
-                setLoading(false);
             } catch (err) {
+                console.error('Error fetching my courses:', err); // Registrar el error detalladamente
                 setError('Error fetching my courses');
+            } finally {
                 setLoading(false);
             }
         };

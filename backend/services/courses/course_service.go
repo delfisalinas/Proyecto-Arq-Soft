@@ -157,3 +157,42 @@ func SearchCourses(db *gorm.DB, query string) ([]dtos.CourseResponseDTO, error) 
 	}
 	return coursesDTO, nil
 }
+func GetCoursesByUserID(db *gorm.DB, userID uint) ([]dtos.CourseResponseDTO, error) {
+	var inscriptions []inscriptions.Inscription
+	// Buscar todas las inscripciones del usuario
+	if err := db.Where("user_id = ?", userID).Find(&inscriptions).Error; err != nil {
+		return nil, err
+	}
+
+	if len(inscriptions) == 0 {
+		return []dtos.CourseResponseDTO{}, nil // No hay inscripciones para este usuario
+	}
+
+	var courseIDs []uint
+	for _, inscription := range inscriptions {
+		courseIDs = append(courseIDs, inscription.CourseID)
+	}
+
+	var courses []courses.Course
+	// Buscar todos los cursos con los IDs obtenidos
+	if err := db.Where("id IN ?", courseIDs).Find(&courses).Error; err != nil {
+		return nil, err
+	}
+
+	if len(courses) == 0 {
+		return []dtos.CourseResponseDTO{}, nil // No hay cursos para los IDs obtenidos
+	}
+
+	var coursesDTO []dtos.CourseResponseDTO
+	for _, course := range courses {
+		coursesDTO = append(coursesDTO, dtos.CourseResponseDTO{
+			ID:           course.ID,
+			Name:         course.Name,
+			Description:  course.Description,
+			Category:     course.Category,
+			Duration:     course.Duration,
+			InstructorID: course.InstructorID,
+		})
+	}
+	return coursesDTO, nil
+}

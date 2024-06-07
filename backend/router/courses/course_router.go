@@ -27,4 +27,6 @@ func MapCourseUrls(engine *gin.Engine, ctrl *coursesController.Controller) {
 	engine.GET("/courses/:id", ctrl.GetCourseByID)
 	// Ruta para buscar cursos por nombre o categoría
 	engine.GET("/search/courses", ctrl.SearchCourses) //http://localhost:8080/search/courses?q=<query> en query va nombre o cat
+
+	engine.GET("/user/:user_id/courses", ctrl.GetCoursesByUserID)
 }

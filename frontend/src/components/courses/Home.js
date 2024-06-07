@@ -24,7 +24,7 @@ function Home() {
 
     return (
         <div className="home-container">
-            <div className="welcome-message">Bienvenido al Portal de Cursos, {user && user.name ? user.name : 'Usuario'}</div>
+            <div className="welcome-message">Bienvenido al Portal de Cursos</div>
             <p className="description">Explora y administra tus cursos con facilidad. Aquí puedes encontrar información detallada sobre todos los cursos disponibles y gestionar tus cursos activos.</p>
             <div className="header">
                 <button className="button" onClick={() => navigate('/search')}>Buscar un curso</button>
