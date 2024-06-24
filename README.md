@@ -1,5 +1,4 @@
 # Proyecto-Arq-Soft
-# Proyecto-Arq-Soft
 # Proyecto de Gestión de Cursos
 
 ## Descripción
