@@ -3,6 +3,7 @@ package basedatos
 import (
 	domainComments "backend/domain/comments"
 	domainCourses "backend/domain/courses"
+	files "backend/domain/files"
 	domainInscriptions "backend/domain/inscriptions"
 	domainUsers "backend/domain/users"
 	"fmt"
@@ -34,6 +35,7 @@ func Inicializar() (*gorm.DB, error) {
 		&domainUsers.User{},
 		&domainCourses.Course{},
 		&domainInscriptions.Inscription{},
+		&files.File{},
 		&domainComments.Comment{}); err != nil {
 		log.Fatalf("No se pudo migrar a la base de datos: %v", err)
 		return nil, err

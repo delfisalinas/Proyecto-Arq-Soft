@@ -4,10 +4,12 @@ import (
 	"backend/basedatos"
 	commentController "backend/controllers/comments"
 	courseController "backend/controllers/courses"
+	filesController "backend/controllers/files"
 	inscriptionController "backend/controllers/inscriptions"
 	usersController "backend/controllers/users"
 	routerComments "backend/router/comments"
 	routerCourses "backend/router/courses"
+	routerFiles "backend/router/files"
 	routerInscriptions "backend/router/inscriptions"
 	routerUsers "backend/router/users"
 	"log"
@@ -40,12 +42,14 @@ func main() {
 	courseController := courseController.NewController(db)
 	inscriptionController := inscriptionController.NewController(db)
 	commentController := commentController.NewController(db)
+	filesController := filesController.NewController(db)
 
 	// Pasar el controlador al enrutador
 	routerUsers.MapUrls(r, usersController)
 	routerCourses.MapCourseUrls(r, courseController)
 	routerInscriptions.MapInscriptionUrls(r, inscriptionController)
 	routerComments.MapCommentUrls(r, commentController)
+	routerFiles.MapFileUrls(r, filesController)
 
 	// Ejecutar el servidor
 	if err := r.Run(":8080"); err != nil {
