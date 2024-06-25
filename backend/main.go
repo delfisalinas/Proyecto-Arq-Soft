@@ -1,50 +1,26 @@
 package main
 
 import (
+	"backend/basedatos"
 	commentController "backend/controllers/comments"
 	courseController "backend/controllers/courses"
 	inscriptionController "backend/controllers/inscriptions"
 	usersController "backend/controllers/users"
-	domainComments "backend/domain/comments"
-	domainCourses "backend/domain/courses"
-	domainInscriptions "backend/domain/inscriptions"
-	domainUsers "backend/domain/users"
 	routerComments "backend/router/comments"
 	routerCourses "backend/router/courses"
 	routerInscriptions "backend/router/inscriptions"
 	routerUsers "backend/router/users"
-	"fmt"
 	"log"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 )
 
 func main() {
-	dbUser := "root"
-	dbPass := ""
-	dbHost := "localhost"
-	dbPort := "3306"
-	dbName := "gestion_de_cursos_arqsoft"
-
-	// Conectar a la base de datos
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		dbUser, dbPass, dbHost, dbPort, dbName)
-
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	// Inicializar la base de datos
+	db, err := basedatos.Inicializar()
 	if err != nil {
-		log.Fatalf("Error al conectar con la base de datos: %v", err)
-	}
-
-	// Migrar los modelos a la base de datos
-	if err := db.AutoMigrate(
-		&domainUsers.User{},
-		&domainCourses.Course{},
-		&domainInscriptions.Inscription{},
-		&domainComments.Comment{}); err != nil {
-		log.Fatalf("No se pudo migrar a la base de datos: %v", err)
+		log.Fatalf("No se pudo inicializar la base de datos: %v", err)
 	}
 
 	// Inicializar el enrutador de Gin
