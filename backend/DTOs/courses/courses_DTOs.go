@@ -1,4 +1,4 @@
-package dtos
+package courses
 
 // CreateCourseRequest representa la solicitud para crear un curso
 type CreateCourseRequestDTO struct {

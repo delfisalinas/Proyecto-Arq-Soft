@@ -1,7 +1,7 @@
 package comments
 
 import (
-	dtos "backend/dtos/comments"
+	dtos "backend/DTOs/comments"
 	commentsService "backend/services/comments"
 	"net/http"
 	"strconv"

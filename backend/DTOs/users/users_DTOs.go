@@ -1,4 +1,4 @@
-package dtos
+package users
 
 // LoginRequestDTO representa la solicitud de login.
 type LoginRequestDTO struct {

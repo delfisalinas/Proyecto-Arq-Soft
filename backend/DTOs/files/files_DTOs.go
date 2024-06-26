@@ -1,4 +1,4 @@
-package dtos
+package files
 
 // CreateFileRequestDTO representa la solicitud para cargar un archivo
 type CreateFileRequestDTO struct {

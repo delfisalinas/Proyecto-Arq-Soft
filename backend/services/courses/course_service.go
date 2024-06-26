@@ -1,9 +1,9 @@
 package courses
 
 import (
+	dtos "backend/DTOs/courses"
 	"backend/domain/courses"
 	"backend/domain/inscriptions"
-	dtos "backend/dtos/courses"
 	"errors"
 
 	"gorm.io/gorm"

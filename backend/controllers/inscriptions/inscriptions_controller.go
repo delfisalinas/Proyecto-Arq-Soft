@@ -1,7 +1,7 @@
 package inscriptions
 
 import (
-	dtos "backend/dtos/inscriptions"
+	dtos "backend/DTOs/inscriptions"
 	inscriptionsService "backend/services/inscriptions"
 	"net/http"
 	"strconv"

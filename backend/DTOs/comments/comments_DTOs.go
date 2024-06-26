@@ -1,4 +1,4 @@
-package dtos
+package comments
 
 // CreateCommentRequestDTO representa la solicitud para crear un comentario
 type CreateCommentRequestDTO struct {

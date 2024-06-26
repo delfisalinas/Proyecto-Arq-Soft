@@ -1,11 +1,11 @@
 package inscriptions
 
 import (
+	courseDtos "backend/DTOs/courses" // Importar los DTOs de cursos
+	dtos "backend/DTOs/inscriptions"
 	coursesDomain "backend/domain/courses"
 	"backend/domain/inscriptions"
 	usersDomain "backend/domain/users"
-	courseDtos "backend/dtos/courses" // Importar los DTOs de cursos
-	dtos "backend/dtos/inscriptions"
 	"errors"
 
 	"gorm.io/gorm"

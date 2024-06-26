@@ -1,4 +1,4 @@
-package dtos
+package inscriptions
 
 // CreateInscriptionRequestDTO representa la solicitud para crear una inscripción
 type CreateInscriptionRequestDTO struct {

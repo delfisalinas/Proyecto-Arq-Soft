@@ -1,11 +1,11 @@
 package comments
 
 import (
+	dtos "backend/DTOs/comments"
 	"backend/domain/comments"
 	coursesDomain "backend/domain/courses"
 	inscriptions "backend/domain/inscriptions"
 	usersDomain "backend/domain/users"
-	dtos "backend/dtos/comments"
 	"errors"
 
 	"gorm.io/gorm"

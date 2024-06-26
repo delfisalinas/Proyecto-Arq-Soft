@@ -1,7 +1,7 @@
 package users
 
 import (
-	dtos "backend/dtos/users"
+	dtos "backend/DTOs/users"
 	usersService "backend/services/users" // asigno un alias a la carpeta users del servicio
 
 	"net/http"

@@ -1,7 +1,7 @@
 package courses
 
 import (
-	dtos "backend/dtos/courses"               // Importar los DTOs de cursos
+	dtos "backend/DTOs/courses"               // Importar los DTOs de cursos
 	coursesService "backend/services/courses" // Importar el servicio de cursos
 	"fmt"
 	"net/http"

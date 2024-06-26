@@ -1,8 +1,8 @@
 package users
 
 import (
+	dtos "backend/DTOs/users"
 	"backend/domain/users"
-	dtos "backend/dtos/users"
 	"errors"
 	"time"
 
