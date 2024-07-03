@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import '../assets/styles/MyCourses.css';
 
+
 function MyCourses() {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -13,15 +14,15 @@ function MyCourses() {
     useEffect(() => {
         const fetchMyCourses = async () => {
             try {
-                const userId = localStorage.getItem('userId'); // Obtener userId del localStorage
+                const userId = localStorage.getItem('userId');
                 if (!userId) {
                     throw new Error('User ID not found');
                 }
 
-                const response = await axios.get(`http://localhost:8080/user/${userId}/courses`); // Corrección de la URL
+                const response = await axios.get(`http://localhost:8080/user/${userId}/courses`);
                 setCourses(response.data);
             } catch (err) {
-                console.error('Error fetching my courses:', err); // Registrar el error detalladamente
+                console.error('Error fetching my courses:', err);
                 setError('Error fetching my courses');
             } finally {
                 setLoading(false);
@@ -30,6 +31,10 @@ function MyCourses() {
 
         fetchMyCourses();
     }, []);
+
+    const handleUploadClick = (courseId) => {
+        navigate(`/upload/${courseId}`);
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
@@ -47,6 +52,7 @@ function MyCourses() {
                                 <p>{course.description}</p>
                             </div>
                             <Link to={`/courses/${course.id}`} className="details-button">Click para conocer más detalles</Link>
+                            <button onClick={() => handleUploadClick(course.id)} className="upload-button">Subir Archivo</button>
                         </li>
                     ))}
                 </ul>
@@ -58,3 +64,4 @@ function MyCourses() {
 }
 
 export default MyCourses;
+

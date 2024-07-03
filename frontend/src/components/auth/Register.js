@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
-import './Register.css'; // Asegúrate de que el archivo CSS está siendo importado correctamente
+import './Register.css'; 
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -29,7 +29,7 @@ function Register() {
             console.log(user_type);
             setUser(response.data);
             alert('Registration successful');
-            navigate('/home');
+            navigate('/login');
         } catch (error) {
             setError('Failed to register: ' + error.message);
         }
