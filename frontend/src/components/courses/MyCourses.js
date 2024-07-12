@@ -36,6 +36,10 @@ function MyCourses() {
         navigate(`/upload/${courseId}`);
     };
 
+    const handleCommentClick = (courseId) => {
+        navigate(`/add-comment/${courseId}`);
+    };
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
@@ -52,6 +56,7 @@ function MyCourses() {
                                 <p>{course.description}</p>
                             </div>
                             <Link to={`/courses/${course.id}`} className="details-button">Click para conocer más detalles</Link>
+                            <button onClick={() => handleCommentClick(course.id)} className="comment-button">Agregar Comentario</button>
                             <button onClick={() => handleUploadClick(course.id)} className="upload-button">Subir Archivo</button>
                         </li>
                     ))}
@@ -64,4 +69,3 @@ function MyCourses() {
 }
 
 export default MyCourses;
-

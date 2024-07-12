@@ -10,6 +10,7 @@ import SearchCourses from './components/courses/SearchCourses';
 import ManageCourses from './components/courses/ManageCourses';
 import AddCourse from './components/courses/AddCourse';
 import EditCourse from './components/courses/EditCourse';
+import AddComment from './components/courses/AddComment';
 import { Navigate } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/manage-courses" element={<ManageCourses />} />
          <Route path="/add-course" element={<AddCourse />} />
          <Route path="/edit-course/:courseId" element={<EditCourse />} />
+         <Route path="/add-comment/:courseId" element={<AddComment />} />
          <Route path="/upload/:courseId" element={<Files />} />
         </Route>
                
