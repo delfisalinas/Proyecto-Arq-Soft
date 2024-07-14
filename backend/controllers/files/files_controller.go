@@ -4,7 +4,9 @@ import (
 	files "backend/DTOs/files"
 	services "backend/services/files"
 	"encoding/base64"
+	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -34,7 +36,7 @@ func (ctrl *Controller) CreateFile(context *gin.Context) {
 		return
 	}
 
-	req.Content = decodedContent
+	req.Content = string(decodedContent)
 
 	file, err := services.CreateFile(ctrl.db, req)
 	if err != nil {
@@ -47,4 +49,24 @@ func (ctrl *Controller) CreateFile(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, file)
+}
+
+// GetFilesByCourseID maneja la obtención de archivos por ID del curso
+func (ctrl *Controller) GetFilesByCourseID(context *gin.Context) {
+	courseIDStr := context.Param("courseID")
+	courseID, err := strconv.ParseUint(courseIDStr, 10, 32)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid course ID"})
+		return
+	}
+
+	files, err := services.GetFilesByCourseID(ctrl.db, uint(courseID))
+	if err != nil {
+		log.Printf("Error getting files: %v", err)
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to list files: " + err.Error()})
+		return
+	}
+
+	log.Printf("Files retrieved for course %d: %v", courseID, files)
+	context.JSON(http.StatusOK, files)
 }
