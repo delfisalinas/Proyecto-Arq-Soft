@@ -15,4 +15,7 @@ func MapFileUrls(engine *gin.Engine, ctrl *filesController.Controller) {
 
 	// Ruta para cargar un nuevo archivo
 	engine.POST("/files", ctrl.CreateFile)
+
+	// Ruta para obtener archivos por ID del curso
+	auth.GET("/course/:courseID", ctrl.GetFilesByCourseID)
 }
