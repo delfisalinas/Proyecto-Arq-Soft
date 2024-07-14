@@ -30,3 +30,4 @@ services:
       MYSQL_DATABASE: gestion_de_cursos_arqsoft
     ports:
       - "3307:3306"  # Puerto expuesto en el host
+    

@@ -1,54 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import '../assets/styles/CourseFiles.css';
+import '../assets/styles/CourseComments.css';
 
-const CourseFiles = () => {
+const CourseComments = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
-  const [files, setFiles] = useState([]);
+  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchFiles = async () => {
+    const fetchComments = async () => {
       const token = localStorage.getItem('token'); // Obtener el token del almacenamiento local
       try {
-        const response = await axios.get(`http://localhost:8080/files/course/${courseId}`, {
+        const response = await axios.get(`http://localhost:8080/comments/courses/${courseId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         });
-        console.log("Archivos recibidos:", response.data); // Depuración
-        setFiles(response.data);
+        console.log("Comentarios recibidos:", response.data); // Depuración
+        setComments(response.data);
       } catch (err) {
-        console.error("Error fetching files:", err); // Depuración
-        setError('Error fetching files: ' + err.message);
+        console.error("Error fetching comments:", err); // Depuración
+        setError('Error fetching comments: ' + err.message);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchFiles();
+    fetchComments();
   }, [courseId]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="course-files-container">
+    <div className="course-comments-container">
       <button className="back-button" onClick={() => navigate(-1)}>Volver</button>
-      <h1>Archivos del Curso</h1>
-      {files && files.length === 0 ? (
-        <p>No hay archivos disponibles.</p>
+      <h1>Comentarios del Curso</h1>
+      {comments && comments.length === 0 ? (
+        <p>No hay comentarios disponibles.</p>
       ) : (
         <ul>
-          {files && files.map(file => (
-            <li key={file.id}>
-              <a href={`data:application/octet-stream;base64,${file.content}`} download={file.name}>
-                {file.name}
-              </a>
+          {comments && comments.map(comment => (
+            <li key={comment.id}>
+              <p>{comment.content}</p>
             </li>
           ))}
         </ul>
@@ -57,4 +55,4 @@ const CourseFiles = () => {
   );
 };
 
-export default CourseFiles;
+export default CourseComments;

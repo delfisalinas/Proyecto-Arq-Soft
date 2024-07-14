@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import '../assets/styles/FileUploadComponent.css';
 
 const FileUploadComponent = () => {
     const { courseId } = useParams();

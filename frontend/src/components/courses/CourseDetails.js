@@ -31,7 +31,7 @@ function CourseDetails() {
             setLoading(false);
         }
     };
-    
+
     const handleEnroll = async () => {
         const user_id = localStorage.getItem('userId');
         try {
@@ -45,11 +45,6 @@ function CourseDetails() {
             alert('Error en la inscripción ' + err);
         }
     };
-
-    const handleViewComments = () => {
-      navigate(`/courses/${courseId}/comments`);
-  };
-
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
