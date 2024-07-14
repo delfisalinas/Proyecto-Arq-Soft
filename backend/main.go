@@ -27,6 +27,7 @@ func main() {
 
 	// Inicializar el enrutador de Gin
 	r := gin.Default()
+	r.MaxMultipartMemory = 8 << 20 // 8 MiB
 
 	// Configuración de CORS
 	r.Use(cors.New(cors.Config{
