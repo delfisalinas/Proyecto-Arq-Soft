@@ -5,20 +5,16 @@ import (
 	"backend/domain/files"
 	"backend/domain/inscriptions"
 	"errors"
+	"log"
 
 	"gorm.io/gorm"
 )
 
 // CreateFile crea un nuevo archivo en la base de datos
 func CreateFile(db *gorm.DB, req dtos.CreateFileRequestDTO) (dtos.FileResponseDTO, error) {
-	// Verificar si el usuario está inscrito en el curso
-	if !IsUserEnrolled(db, req.UserID, req.CourseID) {
-		return dtos.FileResponseDTO{}, ErrUserNotEnrolled
-	}
-
 	file := files.File{
 		Name:     req.Name,
-		Content:  req.Content,
+		Content:  []byte(req.Content),
 		UserID:   req.UserID,
 		CourseID: req.CourseID,
 	}
@@ -35,6 +31,30 @@ func CreateFile(db *gorm.DB, req dtos.CreateFileRequestDTO) (dtos.FileResponseDT
 		UserID:   file.UserID,
 		CourseID: file.CourseID,
 	}, nil
+}
+
+// GetFilesByCourseID obtiene los archivos de un curso por su ID
+func GetFilesByCourseID(db *gorm.DB, courseID uint) ([]dtos.FileResponseDTO, error) {
+	var files []files.File
+	if err := db.Where("course_id = ?", courseID).Find(&files).Error; err != nil {
+		log.Printf("Error fetching files from DB: %v", err)
+		return nil, err
+	}
+
+	log.Printf("Files found in DB: %v", files)
+	var dtosFiles []dtos.FileResponseDTO
+	for _, file := range files {
+		dtosFiles = append(dtosFiles, dtos.FileResponseDTO{
+			ID:       file.ID,
+			Name:     file.Name,
+			Content:  file.Content,
+			UserID:   file.UserID,
+			CourseID: file.CourseID,
+		})
+	}
+
+	log.Printf("Files converted to DTOs: %v", dtosFiles)
+	return dtosFiles, nil
 }
 
 // IsUserEnrolled verifica si un usuario está inscrito en un curso
