@@ -1,14 +1,30 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../assets/styles/Files.css';
+import { useParams } from 'react-router-dom';
 
-const FileUpload = ({ courseId }) => {
+const FileUploadComponent = () => {
+    const { courseId } = useParams();
     const [selectedFile, setSelectedFile] = useState(null);
+    const [base64String, setBase64String] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
+    const userId = Number(localStorage.getItem('userId'));
 
-    const handleFileChange = (e) => {
-        setSelectedFile(e.target.files[0]);
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        if (file) {
+            reader.onloadend = () => {
+                const base64data = reader.result.split(",")[1]; // Eliminar la cabecera del base64
+                setBase64String(base64data);
+                setSelectedFile(file);
+            };
+            reader.onerror = () => {
+                setError("Error reading file");
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     const handleUpload = async () => {
@@ -17,47 +33,47 @@ const FileUpload = ({ courseId }) => {
             return;
         }
 
-        const userId = localStorage.getItem('userId');
-        const token = localStorage.getItem('token');
-        
-        // Convert file to base64
-        const reader = new FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onload = async () => {
-            const base64File = reader.result.split(',')[1]; // Remove the data:...base64, part
+        if (!courseId) {
+            setError('Course ID is required.');
+            return;
+        }
 
-            try {
-                const response = await axios.post('http://localhost:8080/files', {
-                    name: selectedFile.name,
-                    content: base64File,
-                    userId: userId,
-                    courseId: courseId
-                }, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
+        console.log(base64String); // Verificar el contenido base64
 
-                setMessage('File uploaded successfully.');
-            } catch (err) {
-                setError(`Error uploading file: ${err.response ? err.response.data.error : err.message}`);
+        try {
+            const response = await axios.post('http://localhost:8080/files', {
+                name: selectedFile.name,
+                content: base64String,
+                userId: userId,
+                courseId: Number(courseId),
+            });
+
+            if (response.status === 200) {
+                setMessage('File uploaded successfully');
+                setSelectedFile(null); // Clear the selected file after upload
+                setBase64String('');
+            } else {
+                setError('Failed to upload file');
             }
-        };
-
-        reader.onerror = (error) => {
-            setError(`Error reading file: ${error}`);
-        };
+        } catch (error) {
+            if (error.response) {
+                setError(`Failed to upload file: ${error.response.data.error}`);
+            } else if (error.request) {
+                setError('No response received from server');
+            } else {
+                setError(`Error in setting up request: ${error.message}`);
+            }
+        }
     };
 
     return (
-        <div className="file-upload-container">
-            <input type="file" onChange={handleFileChange} />
-            <button onClick={handleUpload}>Upload File</button>
-            {error && <p className="error-message">{error}</p>}
-            {message && <p className="success-message">{message}</p>}
+        <div>
+            <input type="file" accept=".txt,.pdf" onChange={handleFileChange} /> {/* Allow txt and pdf files */}
+            <button onClick={handleUpload}>Upload</button>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {message && <p style={{ color: 'green' }}>{message}</p>}
         </div>
     );
 };
 
-export default FileUpload;
+export default FileUploadComponent;
