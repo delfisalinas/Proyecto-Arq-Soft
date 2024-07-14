@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../assets/styles/MyCourses.css';
-
 
 function MyCourses() {
     const [courses, setCourses] = useState([]);
@@ -37,7 +35,7 @@ function MyCourses() {
     };
 
     const handleCommentClick = (courseId) => {
-        navigate(`/add-comment/${courseId}`);
+        navigate(`/courses/${courseId}/comment`);
     };
 
     if (loading) return <div>Loading...</div>;
@@ -56,8 +54,8 @@ function MyCourses() {
                                 <p>{course.description}</p>
                             </div>
                             <Link to={`/courses/${course.id}`} className="details-button">Click para conocer más detalles</Link>
-                            <button onClick={() => handleCommentClick(course.id)} className="comment-button">Agregar Comentario</button>
                             <button onClick={() => handleUploadClick(course.id)} className="upload-button">Subir Archivo</button>
+                            <button onClick={() => handleCommentClick(course.id)} className="comment-button">Realizar Comentario</button>
                         </li>
                     ))}
                 </ul>
