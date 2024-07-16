@@ -1,8 +1,6 @@
 package basedatos
 
 import (
-	"time"
-
 	domainComments "backend/domain/comments"
 	domainCourses "backend/domain/courses"
 	files "backend/domain/files"
@@ -10,20 +8,25 @@ import (
 	domainUsers "backend/domain/users"
 	"fmt"
 	"log"
+	"os"
+	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 func ConnectDatabase(retries int) (*gorm.DB, error) {
-	dbUser := "root"
-	dbPass := "rootpassword"
-	dbHost := "mysql"
-	dbPort := "3306"
-	dbName := "gestion_de_cursos_arqsoft"
+	dbUser := os.Getenv("DB_USER")
+	dbPass := os.Getenv("DB_PASSWORD")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbName := os.Getenv("DB_NAME")
 
 	var db *gorm.DB
 	var err error
+
+	// Esperar manualmente a la base de datos
+	time.Sleep(30 * time.Second)
 
 	for i := 0; i < retries; i++ {
 		// Intentar conectar a la base de datos

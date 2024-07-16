@@ -10,7 +10,14 @@ services:
     volumes:
       - ./backend:/app
     depends_on:
-      - mysql  # Dependencia explícita de MySQL
+      mysql:
+        condition: service_healthy
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+      - DB_NAME=gestion_de_cursos_arqsoft
 
   frontend:
     build:
@@ -21,7 +28,8 @@ services:
     volumes:
       - ./frontend:/usr/share/nginx/html
     depends_on:
-      - backend  # Dependencia explícita del backend
+      backend:
+        condition: service_started
 
   mysql:
     image: mysql:latest
@@ -29,5 +37,9 @@ services:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: gestion_de_cursos_arqsoft
     ports:
-      - "3307:3306"  # Puerto expuesto en el host
-    
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
