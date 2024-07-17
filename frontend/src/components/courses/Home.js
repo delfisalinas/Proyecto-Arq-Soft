@@ -6,6 +6,8 @@ import '../assets/styles/Home.css';
 
 function Home() {
     const [cursos, setCursos] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
     const userType = localStorage.getItem('usertype');
@@ -15,9 +17,13 @@ function Home() {
         const fetchCursos = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/courses');
-                setCursos(response.data);
+                setCursos(response.data || []);
             } catch (error) {
                 console.error('Error fetching data: ', error);
+                setError('Error fetching data');
+                setCursos([]);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -30,6 +36,9 @@ function Home() {
         localStorage.removeItem('token');
         navigate('/login');
     };
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
 
     return (
         <div className="home-container">
@@ -45,7 +54,7 @@ function Home() {
             </div>
             <h2>Cursos Disponibles</h2>
             {cursos.length === 0 ? (
-                <p>No hay cursos disponibles.</p>
+                <p>No hay cursos disponibles aún.</p>
             ) : (
                 <ul className="course-list">
                     {cursos.map(curso => (
