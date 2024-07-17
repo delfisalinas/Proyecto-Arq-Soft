@@ -24,10 +24,17 @@ function Home() {
         fetchCursos();
     }, []);
 
+    const handleLogout = () => {
+        localStorage.removeItem('userId');
+        localStorage.removeItem('usertype');
+        localStorage.removeItem('token');
+        navigate('/login');
+    };
+
     return (
         <div className="home-container">
             <div className="logout-container">
-                <button className="logout-button" onClick={() => navigate('/login')}>Logout</button>
+                <button className="logout-button" onClick={handleLogout}>Logout</button>
             </div>
             <div className="welcome-message">Bienvenido al Portal de Cursos</div>
             <p className="description">Explora y administra tus cursos con facilidad. Aquí puedes encontrar información detallada sobre todos los cursos disponibles y gestionar tus cursos activos.</p>
@@ -37,14 +44,18 @@ function Home() {
                 {administrador && <button className="button" onClick={() => navigate('/manage-courses')}>Gestión de Cursos</button>}
             </div>
             <h2>Cursos Disponibles</h2>
-            <ul className="course-list">
-                {cursos.map(curso => (
-                    <li key={curso.id} className="course-item">
-                        {curso.name}
-                        <button className="button" onClick={() => navigate(`/courses/${curso.id}`)}>Click para conocer más detalles</button>
-                    </li>
-                ))}
-            </ul>
+            {cursos.length === 0 ? (
+                <p>No hay cursos disponibles.</p>
+            ) : (
+                <ul className="course-list">
+                    {cursos.map(curso => (
+                        <li key={curso.id} className="course-item">
+                            {curso.name}
+                            <button className="button" onClick={() => navigate(`/courses/${curso.id}`)}>Click para conocer más detalles</button>
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 }
